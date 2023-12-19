@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<cfg>
+    <agent>AgentConsumer3</agent>
+    <pricePower>10</pricePower>
+    <powerHour>
+        <power>3.76</power>
+        <power>3.76</power>
+        <power>3.76</power>
+        <power>3.76</power>
+        <power>3.76</power>
+        <power>3.76</power>
+        <power>3.76</power>
+        <power>3.76</power>
+        <power>7.52</power>
+        <power>11.28</power>
+        <power>18.8</power>
+        <power>18.8</power>
+        <power>18.8</power>
+        <power>13.16</power>
+        <power>9.4</power>
+        <power>9.4</power>
+        <power>9.4</power>
+        <power>5.64</power>
+        <power>5.64</power>
+        <power>5.64</power>
+        <power>3.76</power>
+        <power>3.76</power>
+        <power>3.76</power>
+        <power>3.76</power>
+    </powerHour>
+</cfg>
