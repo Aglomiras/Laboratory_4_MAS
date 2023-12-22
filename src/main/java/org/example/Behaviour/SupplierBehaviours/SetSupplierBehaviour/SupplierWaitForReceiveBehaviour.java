@@ -8,22 +8,27 @@ import jade.lang.acl.ACLMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.example.Model.SupplierSave;
 
+/**
+ * SupplierWaitForReceiveBehaviour(ParallelBehaviour):
+ * -> SupplierReceiveChoiceBehaviour(ParallelBehaviour)
+ * -> WakerBehaviour(ждет, когда производители закончат свои торги)
+ */
 @Slf4j
-public class SupplierWaitForAcceptBehaviour1 extends ParallelBehaviour {
+public class SupplierWaitForReceiveBehaviour extends ParallelBehaviour {
     private Behaviour wakeupBeh;
-    private SupplierReceiveChoiceBehaviour1 receiveBeh;
+    private SupplierReceiveChoiceBehaviour receiveBeh;
     private double power;
     private double price;
     private long times;
     private SupplierSave supplierSave;
     private String topic;
 
-    public SupplierWaitForAcceptBehaviour1(double power, double price, long times, SupplierSave supplierSave, String topic) {
+    public SupplierWaitForReceiveBehaviour(double power, double price, long times, SupplierSave supplierSave, String topic) {
         super(WHEN_ANY);
-        this.power = power;
-        this.times = times;
-        this.price = price;
-        this.supplierSave = supplierSave;
+        this.power = power; //Закупаемая мощность
+        this.times = times; //Количество времени, отведенного для проведения торгов
+        this.price = price; //Цена закупаемой мощности
+        this.supplierSave = supplierSave; //Dto - поставщика
         this.supplierSave.setPower(power);
         this.supplierSave.setPrice(price);
         this.topic = topic;
@@ -31,7 +36,7 @@ public class SupplierWaitForAcceptBehaviour1 extends ParallelBehaviour {
 
     @Override
     public void onStart() {
-        receiveBeh = new SupplierReceiveChoiceBehaviour1(supplierSave, topic);
+        receiveBeh = new SupplierReceiveChoiceBehaviour(supplierSave, topic);
         wakeupBeh = new WakerBehaviour(myAgent, times) {
             boolean wake = false;
 
@@ -56,10 +61,11 @@ public class SupplierWaitForAcceptBehaviour1 extends ParallelBehaviour {
         if (wakeupBeh.done()) {
             if (supplierSave.getPrice() > supplierSave.getMinPrice()) {
                 log.info("Отправляю победителю торгов {} предложение о заключении контракта. Отправил - {} ", supplierSave.getAgentNamNam(), this.myAgent.getLocalName());
-                sendBet();
+                createMsgContract(); //Отправка сообщения победителю
                 return 0;
             } else {
                 log.info("Нет выгодной цены... Отчитался {}", this.myAgent.getLocalName());
+                createMsgNo(); //Отправка сообщений потребителю
                 return 1;
             }
         } else {
@@ -68,11 +74,27 @@ public class SupplierWaitForAcceptBehaviour1 extends ParallelBehaviour {
         }
     }
 
-    private void sendBet() {
-        ACLMessage firstMsg = new ACLMessage(ACLMessage.CFP);
+    /**
+     * Формируем сообщение победителю для заключения контракта
+     */
+    private void createMsgContract() {
+        ACLMessage firstMsg = new ACLMessage(ACLMessage.CFP); //CFP - тип сообщения с контрактом
         firstMsg.setContent(supplierSave.getMinPrice() + "," + supplierSave.getPower());
         firstMsg.setProtocol("Auction " + topic);
         firstMsg.addReceiver(supplierSave.getAgent());
         myAgent.send(firstMsg);
+    }
+    private void createMsgNo(){
+        ACLMessage firstMsg = new ACLMessage(ACLMessage.CANCEL); //CANCEL - тип сообщения, оповещающий, что нет хороших предложений
+        firstMsg.setContent("Нет хороших предложений");
+        firstMsg.setProtocol("Auction " + topic);
+        firstMsg.addReceiver(new AID(nameConsumer(), false));
+        myAgent.send(firstMsg);
+    }
+
+    private String nameConsumer() {
+        char[] crh = myAgent.getLocalName().toCharArray();
+        String nameSupp = "AgentConsumer" + crh[crh.length - 1];
+        return nameSupp;
     }
 }

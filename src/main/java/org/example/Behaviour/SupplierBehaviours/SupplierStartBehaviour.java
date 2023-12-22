@@ -24,7 +24,7 @@ public class SupplierStartBehaviour extends Behaviour {
             double power = Double.parseDouble(mesStart.getContent().split(",")[0]);
             double price = Double.parseDouble(mesStart.getContent().split(",")[1]);
             String consumer = mesStart.getSender().getLocalName();
-
+            /**Запуск поиска мощности для потребителя*/
             myAgent.addBehaviour(new SupplierParallelFirstBehaviour(power, price, consumer, virtualTime.getTimeMils(0.9)));
         } else {
             block();

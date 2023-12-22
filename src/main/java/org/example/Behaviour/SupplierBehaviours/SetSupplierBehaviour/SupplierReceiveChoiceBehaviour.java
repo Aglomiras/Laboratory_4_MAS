@@ -1,6 +1,5 @@
 package org.example.Behaviour.SupplierBehaviours.SetSupplierBehaviour;
 
-import jade.core.AID;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
@@ -8,29 +7,33 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.example.Model.SupplierSave;
 
+
+/**
+ * SupplierReceiveChoiceBehaviour(Behaviour -> в этом поведении производятся торги между агентами производителями)
+ */
 @Slf4j
 @Data
-public class SupplierReceiveChoiceBehaviour1 extends Behaviour {
-    private Double minPriceCons = null;
-    private String agentMinMin = "";
-    private AID agentMin = null;
-    private ACLMessage bestOffer = null;
+public class SupplierReceiveChoiceBehaviour extends Behaviour {
     private MessageTemplate messageTemplate;
     private double minCons;
-    private String protocol;
     private SupplierSave supplierSave;
-    private String topic = "Auction " ;
-    public SupplierReceiveChoiceBehaviour1(SupplierSave supplierSave, String topic){
+    private String topic = "Auction "; //Часть имени топика
+
+    public SupplierReceiveChoiceBehaviour(SupplierSave supplierSave, String topic) {
         this.supplierSave = supplierSave;
-        this.topic += topic;
+        this.topic += topic; //Определение нового топи (так, при разделении контракта, передаваемые сообщения не перепутаются между топиками)
     }
 
     @Override
     public void onStart() {
-//        this.messageTemplate = MessageTemplate.MatchPerformative(ACLMessage.AGREE);
-        this.messageTemplate = MessageTemplate.and(MessageTemplate.MatchProtocol(topic), MessageTemplate.MatchPerformative(ACLMessage.AGREE));
+        this.messageTemplate = MessageTemplate.and(
+                MessageTemplate.MatchProtocol(topic),
+                MessageTemplate.MatchPerformative(ACLMessage.AGREE));
     }
 
+    /**
+     * Проведение торгов в своем топик-чате
+     */
     @Override
     public void action() {
         ACLMessage propose = myAgent.receive(messageTemplate);
@@ -45,7 +48,7 @@ public class SupplierReceiveChoiceBehaviour1 extends Behaviour {
             } catch (NumberFormatException e) {
                 log.warn("NumberFormatException " + propose.getSender().getLocalName());
             }
-
+            /**Запись/перезапись данных производителя, предложившего минимальную цену*/
             if (price > 0 && (supplierSave.getMinPrice() == 0 || price < supplierSave.getMinPrice())) {
                 this.supplierSave.setMinPrice(price);
                 this.supplierSave.setAgent(propose.getSender());

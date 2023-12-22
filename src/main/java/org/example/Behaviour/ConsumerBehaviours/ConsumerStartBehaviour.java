@@ -7,6 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.Support.VirtualTime;
 
 import java.util.List;
+
+/**
+ * ConsumerStartBehaviour(Behaviour) -> отправляет сообщения каждый час с запросом на закупку мощности
+ */
 @Slf4j
 public class ConsumerStartBehaviour extends Behaviour {
     private double priceConsumer;
@@ -16,9 +20,9 @@ public class ConsumerStartBehaviour extends Behaviour {
     private List<Double> powerHourList;
 
     public ConsumerStartBehaviour(double priceConsumer, String nameSupplier, List<Double> powerHourList) {
-        this.priceConsumer = priceConsumer;
-        this.nameSupplier = nameSupplier;
-        this.powerHourList = powerHourList;
+        this.priceConsumer = priceConsumer; //Коэффициент цены мощности потребителя
+        this.nameSupplier = nameSupplier; //Имя поставщика для этого потребителя
+        this.powerHourList = powerHourList; //Массив нагрузки
         this.virtualTime = VirtualTime.getInstance();
         this.countHour = virtualTime.getTimeHour() - 1; //Настраиваем начальные параметры
     }
@@ -51,7 +55,7 @@ public class ConsumerStartBehaviour extends Behaviour {
     }
 
     private void creatAclMsg(double power, double price, String name) {
-        ACLMessage startMsg = new ACLMessage(ACLMessage.PROXY);
+        ACLMessage startMsg = new ACLMessage(ACLMessage.PROXY); //PROXY - запрос на закупку мощности
         startMsg.setContent(power + "," + price);
         startMsg.addReceiver(new AID(name, false));
         myAgent.send(startMsg);

@@ -6,10 +6,13 @@ import jade.lang.acl.MessageTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.example.Model.ConsumerSave;
 
+/**
+ * ConsumerComebackBehaviour(Behaviour) - ждет сообщения с информацией по найденным предложениям
+ */
 @Slf4j
 public class ConsumerComebackBehaviour extends Behaviour {
     private MessageTemplate messageTemplate;
-    private ConsumerSave consumerSave;
+    private ConsumerSave consumerSave; //Dto для проверки Junit-test
 
     public ConsumerComebackBehaviour(ConsumerSave consumerSave) {
         this.consumerSave = consumerSave;
@@ -18,8 +21,8 @@ public class ConsumerComebackBehaviour extends Behaviour {
     @Override
     public void onStart() {
         messageTemplate = MessageTemplate.or(
-                MessageTemplate.MatchPerformative(ACLMessage.DISCONFIRM),
-                MessageTemplate.MatchPerformative(ACLMessage.CANCEL));
+                MessageTemplate.MatchPerformative(ACLMessage.DISCONFIRM), //Сообщение с информацией о контракте
+                MessageTemplate.MatchPerformative(ACLMessage.CANCEL)); //Сообщение с известием об отсутствии предложений
     }
 
     @Override
@@ -30,6 +33,7 @@ public class ConsumerComebackBehaviour extends Behaviour {
             if (comebackMsg.getPerformative() == ACLMessage.DISCONFIRM) {
                 String content = comebackMsg.getContent().split(",")[1];
                 consumerSave.setPositiveCount(consumerSave.getPositiveCount() + 1);
+
                 if (content.equals("Yes")) {
                     consumerSave.setPositiveCountPos(consumerSave.getPositiveCountPos() + 1);
                     log.info("Сделка совершена. Спасибо поставщик {}. Потребитель {} доволен!", comebackMsg.getSender().getLocalName(), this.myAgent.getLocalName());

@@ -4,13 +4,16 @@ import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
-public class SupplierReceiveAuctionBehaviour1 extends Behaviour {
+/**
+ * SupplierReceiveAuctionBehaviour(Behaviour) -> ждет сообщений от производителей о том, что они не могут обеспечить требуемую мощность
+ */
+public class SupplierReceiveAuctionBehaviour extends Behaviour {
     private MessageTemplate messageTemplate;
     private int count = 0;
     private int countMsg;
     private boolean flagRecBeh = false;
 
-    public SupplierReceiveAuctionBehaviour1(int countMsg) {
+    public SupplierReceiveAuctionBehaviour(int countMsg) {
         this.countMsg = countMsg;
     }
 

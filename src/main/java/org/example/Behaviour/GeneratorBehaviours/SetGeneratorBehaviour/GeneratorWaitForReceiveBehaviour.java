@@ -13,10 +13,10 @@ import org.example.Model.GeneratorSave;
  */
 @Slf4j
 public class GeneratorWaitForReceiveBehaviour extends ParallelBehaviour {
-    private final double minPrice;
     private Behaviour wakeupBeh; //Под-поведение WakerBehaviour
     private GeneratorTopicAuctionBehaviour receiveBeh; //Под-поведение Behaviour
     private final String topicName;
+    private final double minPrice;
     private AID buyer;
     private double powerCons;
     private double priceCons;
@@ -73,6 +73,7 @@ public class GeneratorWaitForReceiveBehaviour extends ParallelBehaviour {
         }
     }
 
+    /**Формирование сообщения с отправкой цены поставщику*/
     private void sendBet(double price, double priceCons) {
         ACLMessage firstMsg = new ACLMessage(ACLMessage.AGREE);
         firstMsg.setContent(price + "," + priceCons);

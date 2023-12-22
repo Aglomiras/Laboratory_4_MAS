@@ -4,6 +4,7 @@ import jade.core.behaviours.FSMBehaviour;
 import org.example.Behaviour.SupplierBehaviours.SetSupplierBehaviour.*;
 import org.example.Model.SupplierSave;
 
+/**FSMSupplierFirstBehaviour(FSMBehaviour) - главное FSM-поведение*/
 public class FSMSupplierFirstBehaviour extends FSMBehaviour {
     private double power;
     private double price;
@@ -21,21 +22,21 @@ public class FSMSupplierFirstBehaviour extends FSMBehaviour {
     }
 
     private final String
-            FIRST_START = "first_start", //
-            WAIT_FIRST_AUCTION = "wait_first_auction", //
-            WAIT_SECOND_AUCTION = "wait_second_auction", //
+            FIRST_START = "first_start", //SupplierStartAuctionBehaviour (Приглашение на аукцион)
+            WAIT_FIRST_AUCTION = "wait_first_auction", //SupplierWaitForAuctionBehaviour (Проверка наличия необходимой энергии)
+            WAIT_SECOND_AUCTION = "wait_second_auction", //SupplierWaitForReceiveBehaviour (Запускает аукцион среди производителей энергии)
             CONTRACT = "contract", //
             DIVISION = "division", //
-            FAIL = "fail", //
-            SUCCESS = "success"; //
+            FAIL = "fail", //SupplierFail (Провал)
+            SUCCESS = "success"; //SupplierSuccess (Успех)
 
     @Override
     public void onStart() {
-        this.registerFirstState(new SupplierStartAuctionBehaviour1(power, price, modifier), FIRST_START);
-        this.registerState(new SupplierWaitForAuctionBehaviour1(3, times / 8), WAIT_FIRST_AUCTION);
-        this.registerState(new SupplierWaitForAcceptBehaviour1(power, price, times / 6, supplierSave, modifier), WAIT_SECOND_AUCTION);
+        this.registerFirstState(new SupplierStartAuctionBehaviour(power, price, modifier), FIRST_START);
+        this.registerState(new SupplierWaitForAuctionBehaviour(3, times / 8), WAIT_FIRST_AUCTION);
+        this.registerState(new SupplierWaitForReceiveBehaviour(power, price, times / 6, supplierSave, modifier), WAIT_SECOND_AUCTION);
 
-        this.registerState(new SupplierContractBehaviour1(), CONTRACT);
+        this.registerState(new SupplierContractBehaviour(), CONTRACT);
         this.registerLastState(new SupplierDivisionOfContractBehaviour1(power, price, nameConsumer, times), DIVISION);
         this.registerLastState(new SupplierFail(), FAIL);
         this.registerLastState(new SupplierSuccess(), SUCCESS);

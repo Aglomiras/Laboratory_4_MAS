@@ -28,10 +28,7 @@ public class GeneratorStartAucSecondBehaviour extends Behaviour {
 
     @Override
     public void onStart() {
-//        messageTemplate = MessageTemplate.or(
-//                MessageTemplate.MatchProtocol("Auction min1"),
-//                MessageTemplate.MatchProtocol("Auction min2"));
-        messageTemplate = MessageTemplate.MatchPerformative(ACLMessage.PROPOSE);
+        messageTemplate = MessageTemplate.MatchPerformative(ACLMessage.PROPOSE); //Тип принимаемых сообщений
     }
 
     @Override
@@ -68,7 +65,7 @@ public class GeneratorStartAucSecondBehaviour extends Behaviour {
                 createMsgFail(receive.getSender(), receive.getProtocol()); //Отправка сообщений в случае нехватки мощности
                 log.info("Нету необходимой мощности. {}", this.myAgent.getLocalName());
             }
-            if (globalCount == 2){
+            if (globalCount == 2) {
                 flag = true;
             }
         } else {

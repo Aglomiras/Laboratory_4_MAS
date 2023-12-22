@@ -15,14 +15,14 @@ import org.example.Support.TopicHelper;
 @Slf4j
 @Data
 public class GeneratorTopicAuctionBehaviour extends Behaviour {
-    private final String topicName;
-    private final double minPrice;
+    private final double minPrice; //Минимальная цена продажи
+    private final String topicName; //Имя топика
+    private double powerCons; //Необходимая мощность
+    private double priceCons; //Цена, за которую готовы купить
     private double currentPrice;
     private AID topic; //Топик
     private boolean finishAuction = false;
     private boolean wake = true;
-    private double powerCons; //Необходимая мощность
-    private double priceCons; //Цена, за которую готовы купить
     private GeneratorSave generatorSave; //Объект, содержащий необходимые данные
 
     public GeneratorTopicAuctionBehaviour(String topicName, double minPrice, double power, double price, GeneratorSave generatorSave) {
@@ -40,7 +40,9 @@ public class GeneratorTopicAuctionBehaviour extends Behaviour {
         sendBet(minPrice * 2);
     }
 
-
+    /**
+     * Торги агентов в топик-чате
+     */
     @Override
     public void action() {
         ACLMessage receive = myAgent.receive(MessageTemplate.MatchTopic(topic));
@@ -69,6 +71,7 @@ public class GeneratorTopicAuctionBehaviour extends Behaviour {
         return finishAuction;
     }
 
+    /**Случайное снижение цены*/
     private double priceRandom(double otherBet) {
         double random = 0.8 + 0.1 * Math.random();
         double myNewBet = otherBet * random;
@@ -78,6 +81,7 @@ public class GeneratorTopicAuctionBehaviour extends Behaviour {
         return myNewBet;
     }
 
+    /**Формирования сообщения для торгов в топик-чате*/
     private void sendBet(double price) {
         ACLMessage firstMsg = new ACLMessage(ACLMessage.INFORM);
         firstMsg.setContent(price + "," + this.priceCons);

@@ -4,14 +4,12 @@ import Kit.MasStarterKit;
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.OneShotBehaviour;
 import lombok.SneakyThrows;
-import org.example.Agent.AgentSupplier;
 import org.example.Behaviour.ConsumerBehaviours.ConsumerComebackBehaviour;
 import org.example.Behaviour.ConsumerBehaviours.ConsumerStartBehaviour;
 import org.example.Behaviour.GeneratorBehaviours.GeneratorStartBehaviour;
 import org.example.Behaviour.SupplierBehaviours.SupplierStartBehaviour;
 import org.example.Model.ConsumerSave;
 import org.example.Support.DfHelper;
-import org.example.Support.VirtualTime;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -22,6 +20,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class Tests {
     private MasStarterKit kit = new MasStarterKit();
 
+    /**
+     * Сценарий 1: Торги с единственным производителем. Задать такое количество покупаемой мощности,
+     * чтобы только 1 поставщик смог удовлетворить запросу. Ожидаемый результат: агент-производитель
+     * продает по завышенной цене мощность, однако контракт отклоняется поставщиком из-за большой цены.
+     */
     @Test
     @SneakyThrows
     public void Test1() {
@@ -53,6 +56,12 @@ public class Tests {
         assertEquals(0, consumerSave.getPositiveCountPos());
     }
 
+    /**
+     * Сценарий 2: Успешный аукцион с двумя участниками. Задать такое количество покупаемой мощности,
+     * чтобы два поставщика смогли удовлетворить запросу и начали процесс снижения цены.
+     * Ожидаемый результат: агенты соревнуются друг с другом для право продать ЭЭ, и один из агентов-производителей
+     * продает по удовлетворительной цене запрошенную мощность.
+     */
     @Test
     @SneakyThrows
     public void Test2() {
@@ -84,6 +93,11 @@ public class Tests {
         assertEquals(1, consumerSave.getPositiveCountPos());
     }
 
+    /**
+     * Сценарий 3: Дефицит мощности в системе. Задать такое количество покупаемой мощности,
+     * что ни один производитель не может полностью удовлетворить запрос. Ожидаемый результат: агент дистрибьютер
+     * должен разбить контракт на несколько частей и закупить требуемое количество у различных поставщиков.
+     */
     @Test
     @SneakyThrows
     public void Test3() {

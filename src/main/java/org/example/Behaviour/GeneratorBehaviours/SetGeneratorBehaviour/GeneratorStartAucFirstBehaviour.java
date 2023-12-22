@@ -5,7 +5,6 @@ import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import lombok.extern.slf4j.Slf4j;
-import org.example.Model.GeneratorSave;
 
 /**
  * GeneratorStartAucFirstBehaviour(Behaviour) -> запуск GeneratorWaitForReceiveBehaviour(ParallelBehaviour),
@@ -51,7 +50,7 @@ public class GeneratorStartAucFirstBehaviour extends Behaviour {
                 createMsgFail(receive.getSender(), receive.getProtocol()); //Отправка сообщений в случае нехватки мощности
                 log.info("Нету необходимой мощности. {}", this.myAgent.getLocalName());
             }
-            if (globalCount == 1) { // ==1 - для 1 продавца // ==3 - для трех продавцов
+            if (globalCount == 1) { // ==1 - для одного продавца // ==3 - для трех продавцов
                 flag = true;
             }
         } else {

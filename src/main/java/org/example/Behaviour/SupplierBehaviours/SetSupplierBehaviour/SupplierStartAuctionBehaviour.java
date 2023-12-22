@@ -5,17 +5,21 @@ import jade.lang.acl.ACLMessage;
 import org.example.Support.DfHelper;
 import org.example.Support.TopicHelper;
 
-public class SupplierStartAuctionBehaviour1 extends OneShotBehaviour {
+/**
+ * SupplierStartAuctionBehaviour(OneShotBehaviour) -> отправляет производителям энергии сообщение об участии в аукционе
+ */
+public class SupplierStartAuctionBehaviour extends OneShotBehaviour {
     private double power;
     private double price;
     private String modifier;
 
-    public SupplierStartAuctionBehaviour1(double power, double price, String modifier) {
+    public SupplierStartAuctionBehaviour(double power, double price, String modifier) {
         this.power = power;
         this.price = price;
         this.modifier = modifier;
     }
 
+    /**Формирование сообщения*/
     @Override
     public void action() {
         var ags = DfHelper.search(myAgent, "generator");
