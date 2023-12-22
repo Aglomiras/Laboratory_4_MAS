@@ -18,9 +18,11 @@ public class JadeStarter {
     public static void main(String[] args) {
         Map<String, Class<?>> agents = Map.of(
                 "AgentSupplier1", AgentSupplier.class,
-//                "AgentSupplier2", AgentSupplier.class,
-//                "AgentSupplier3", AgentSupplier.class,
+                "AgentSupplier2", AgentSupplier.class,
+                "AgentSupplier3", AgentSupplier.class,
                 "AgentConsumer1", AgentConsumer.class,
+                "AgentConsumer2", AgentConsumer.class,
+                "AgentConsumer3", AgentConsumer.class,
                 "AgentGenerator1", AgentGenerator.class,
                 "AgentGenerator2", AgentGenerator.class,
                 "AgentGenerator3", AgentGenerator.class

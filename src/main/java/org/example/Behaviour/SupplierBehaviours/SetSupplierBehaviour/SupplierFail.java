@@ -1,8 +1,11 @@
-package org.example.Behaviour.SupplierBehaviours;
+package org.example.Behaviour.SupplierBehaviours.SetSupplierBehaviour;
 
 import jade.core.behaviours.OneShotBehaviour;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Поведение оповещает о провале
+ */
 @Slf4j
 public class SupplierFail extends OneShotBehaviour {
     @Override

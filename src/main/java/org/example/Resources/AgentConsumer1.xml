@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <cfg>
     <agent>AgentConsumer1</agent>
-    <pricePower>10</pricePower>
+    <pricePower>20.8</pricePower>
     <powerHour>
         <power>15.98</power>
         <power>15.98</power>

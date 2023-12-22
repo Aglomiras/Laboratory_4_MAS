@@ -1,7 +1,6 @@
 package org.example.Model;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.util.Optional;
@@ -21,15 +20,5 @@ public class XmlUtils {
             e.printStackTrace();
         }
         return Optional.empty();
-    }
-
-    public static void marshal(Object object, String path) {
-        try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(object.getClass());
-            Marshaller marshaller = jaxbContext.createMarshaller();
-            marshaller.marshal(object, new File(path));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

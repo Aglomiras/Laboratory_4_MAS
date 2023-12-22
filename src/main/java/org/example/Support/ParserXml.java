@@ -16,21 +16,21 @@ public class ParserXml {
         parse = XmlUtils.parse(this.nameAgent, RegCFGXml.class);
     }
 
-    public String agentNameCons(){
+    public String agentNameConsGen() {
         StringBuilder findAgent = new StringBuilder();
-        parse.ifPresent(e-> findAgent.append(e.getAgent()));
+        parse.ifPresent(e -> findAgent.append(e.getAgent()));
         String findAg = findAgent.toString();
         return findAg;
     }
 
-    public double priceAgent(){
+    public double priceAgent() {
         double price = -1;
         price = parse.get().getPricePower();
         return price;
     }
 
     public List<Double> powerHour() {
-        List<Double> findPowers= new ArrayList<>();
+        List<Double> findPowers = new ArrayList<>();
         parse.ifPresent(e -> findPowers.addAll(e.getPowerList()));
         return findPowers;
     }

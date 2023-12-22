@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <cfg>
     <agent>AgentGenerator2</agent>
-    <pricePower>10</pricePower>
+    <pricePower>0.95</pricePower>
     <powerHour>
-        <power></power>
-        <power></power>
-        <power></power>
-        <power></power>
-        <power></power>
-        <power></power>
-        <power></power>
-        <power></power>
-        <power></power>
-        <power></power>
-        <power></power>
-        <power></power>
-        <power></power>
-        <power></power>
-        <power></power>
-        <power></power>
-        <power></power>
-        <power></power>
-        <power></power>
-        <power></power>
-        <power></power>
-        <power></power>
-        <power></power>
-        <power></power>
+        <power>0</power>
+        <power>0</power>
+        <power>0</power>
+        <power>0</power>
+        <power>0</power>
+        <power>0.76</power>
+        <power>7.07</power>
+        <power>11.78</power>
+        <power>15.04</power>
+        <power>17.0</power>
+        <power>17.8</power>
+        <power>17.59</power>
+        <power>16.52</power>
+        <power>14.75</power>
+        <power>12.41</power>
+        <power>9.66</power>
+        <power>6.64</power>
+        <power>3.51</power>
+        <power>0.4</power>
+        <power>0</power>
+        <power>0</power>
+        <power>0</power>
+        <power>0</power>
+        <power>0</power>
     </powerHour>
 </cfg>

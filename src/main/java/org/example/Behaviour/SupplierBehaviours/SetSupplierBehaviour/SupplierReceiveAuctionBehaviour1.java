@@ -1,16 +1,16 @@
-package org.example.Behaviour.SupplierBehaviours;
+package org.example.Behaviour.SupplierBehaviours.SetSupplierBehaviour;
 
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
-public class SupplierReceiveAuctionBehaviour extends Behaviour {
+public class SupplierReceiveAuctionBehaviour1 extends Behaviour {
     private MessageTemplate messageTemplate;
-    private int count;
+    private int count = 0;
     private int countMsg;
     private boolean flagRecBeh = false;
 
-    public SupplierReceiveAuctionBehaviour(int countMsg) {
+    public SupplierReceiveAuctionBehaviour1(int countMsg) {
         this.countMsg = countMsg;
     }
 
